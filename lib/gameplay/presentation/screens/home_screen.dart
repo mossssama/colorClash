@@ -22,11 +22,11 @@ class HomeScreen extends StatelessWidget {
           children: [
             const Expanded(child: Text("Color Clash",style: TextStyle(fontSize: 28,color: Colors.white,fontWeight: FontWeight.bold))),
             AppButton(onTap: (){
-              Navigator.pushNamed(context, gameScreen); /// TODO: to add argument
+              Navigator.pushNamed(context, gameScreen,arguments: false); /// TODO: to add argument
             },backgroundColor: Colors.red,text: "Single Player",textColor: Colors.white,fontWeight: FontWeight.bold),
             const SizedBox(height: 8),
             AppButton(onTap: (){
-              Navigator.pushNamed(context, gameScreen); /// TODO: to add argument
+              Navigator.pushNamed(context, gameScreen,arguments: true); /// TODO: to add argument
             },backgroundColor: darkGreyColor,text: "Multiplayer",textColor: Colors.white,fontWeight: FontWeight.bold),
           ],
         ),

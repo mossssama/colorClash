@@ -12,9 +12,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseFirestore db = FirebaseFirestore.instance;
   runApp(BlocProvider(
-    create: (context) => CounterCubit(),  ///TODO: TO BE DELETED
+    create: (context) => CounterCubit(),  ///TODO:   TO BE DELETED
     child: const ColorClashApp(),
   ));
 }

@@ -1,9 +1,10 @@
 
-import 'package:demo_app/presentation/screens/game_screen.dart';
-import 'package:demo_app/presentation/screens/gameover_screen.dart';
-import 'package:demo_app/presentation/screens/home_screen.dart';
-import 'package:demo_app/presentation/screens/lobby_screen.dart';
+import 'package:demo_app/gameplay/presentation/screens/game_screen.dart';
+import 'package:demo_app/gameplay/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'gameplay/presentation/screens/gameover_screen.dart';
+import 'gameplay/presentation/screens/lobby_screen.dart';
 
 /// App Screens
 const String homeScreen = '/homeScreen';
@@ -18,7 +19,8 @@ Route? onGenerateRoute(RouteSettings settings) {
     case lobbyScreen:
       return MaterialPageRoute(builder: (context) => const LobbyScreen());
     case gameScreen:
-      return MaterialPageRoute(builder: (context) => const GameScreen());
+      final isMultiplayerMode = settings.arguments as bool;
+      return MaterialPageRoute(builder: (context) => GameScreen(isMultiplayerMode: isMultiplayerMode));
     case gameOverScreen:
       return MaterialPageRoute(builder: (context) => const GameOverScreen());
   }

@@ -56,15 +56,14 @@ class CollectionManager {
   }
 
   /// Read- listen to specific document in the collection [R]
-  void subscribeToDocument({required String documentId,String? desiredKey}) {
+  void subscribeToDocument({required String documentId,String? desiredKey,Function(dynamic listenedVal)? executeOnChange}) {
     db.collection(collectionName).doc(documentId).snapshots().listen((DocumentSnapshot snapshot) {
       if (snapshot.exists) {
-        /// TODO: the logic we want
         Map<String,dynamic> updatedDocument = snapshot.data() as Map<String,dynamic>;
         if(desiredKey!=null){
-          print('Document data: ${updatedDocument[desiredKey]}');
+          if(executeOnChange!=null) executeOnChange(updatedDocument[desiredKey]);
         }else{
-          print('Document data: $updatedDocument');
+          if(executeOnChange!=null) executeOnChange(updatedDocument[desiredKey]);
         }
       } else {
         print('Document does not exist');
