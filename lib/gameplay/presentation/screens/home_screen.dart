@@ -1,6 +1,8 @@
 import 'package:demo_app/app_colors.dart';
+import 'package:demo_app/gameplay/presentation/controllers/gameplay_cubit.dart';
 import 'package:demo_app/routing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/app_button_widget.dart';
 
@@ -16,23 +18,34 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: primaryColor,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Expanded(child: Text("Color Clash",style: TextStyle(fontSize: 28,color: Colors.white,fontWeight: FontWeight.bold))),
-            AppButton(onTap: (){
-              Navigator.pushNamed(context, gameScreen,arguments: false); /// TODO: to add argument
-            },backgroundColor: Colors.red,text: "Single Player",textColor: Colors.white,fontWeight: FontWeight.bold),
+            const Expanded(child: Text("Color Clash", style: TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold))),
+            BlocProvider<GamePlayCubit>(
+              create: (context) => GamePlayCubit(),
+              child: AppButton(
+                  onTap: () {
+                    Navigator.pushNamed(context, gameScreen, arguments: false);
+                  },
+                  backgroundColor: Colors.red,
+                  text: "Single Player",
+                  textColor: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
-            AppButton(onTap: (){
-              Navigator.pushNamed(context, gameScreen,arguments: true); /// TODO: to add argument
-            },backgroundColor: darkGreyColor,text: "Multiplayer",textColor: Colors.white,fontWeight: FontWeight.bold),
+            AppButton(
+                onTap: () {
+                  Navigator.pushNamed(context, gameScreen, arguments: true);
+                },
+                backgroundColor: darkGreyColor,
+                text: "Multiplayer",
+                textColor: Colors.white,
+                fontWeight: FontWeight.bold)
           ],
         ),
       ),
     );
   }
 }
-
-
