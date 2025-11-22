@@ -63,7 +63,7 @@ class CollectionManager {
         if(desiredKey!=null){
           if(executeOnChange!=null) executeOnChange(updatedDocument[desiredKey]);
         }else{
-          if(executeOnChange!=null) executeOnChange(updatedDocument[desiredKey]);
+          if(executeOnChange!=null) executeOnChange(updatedDocument);
         }
       } else {
         print('Document does not exist');

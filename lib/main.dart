@@ -1,9 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_app/routing.dart';
-import 'package:demo_app/trash/presentation/controllers/counter_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'trash/presentation/screens/counter_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -12,10 +8,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(BlocProvider(
-    create: (context) => CounterCubit(),  ///TODO:   TO BE DELETED
-    child: const ColorClashApp(),
-  ));
+  runApp(const ColorClashApp());
 }
 
 class ColorClashApp extends StatelessWidget {

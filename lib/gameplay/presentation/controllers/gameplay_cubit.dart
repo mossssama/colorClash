@@ -4,11 +4,14 @@ import 'package:demo_app/firestore_manager.dart';
 import 'package:demo_app/gameplay/gameplay_cards_list.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../app_constants.dart';
 import '../widgets/game_card_widget.dart';
 import 'gameplay_helpers.dart';
 
 class GamePlayCubit extends Cubit<GameScore> {
-  GamePlayCubit() : super(const GameScore(myScore: 0,opponentScore:  0,generatedValidCards: [],generatedInValidCards: [],gameCards: []));
+  String documentId;
+  String myId;
+  GamePlayCubit({this.documentId="0",this.myId="1"}) : super(const GameScore(myScore: 0,opponentScore:  0,generatedValidCards: [],generatedInValidCards: [],gameCards: []));
   CollectionManager collectionManager = CollectionManager(db: FirebaseFirestore.instance, collectionName: "rooms");
 
   void buildGamePlay() {
@@ -172,16 +175,26 @@ class GamePlayCubit extends Cubit<GameScore> {
   }
 
   void notifyFirebaseWithChanges(){
-    collectionManager.updateDocument(documentId: "1234", documentNewMap: {"player1": state.myScore});
+    if(myId!=singlePlayerModeId){
+      collectionManager.updateDocument(documentId: documentId, documentNewMap: {myId: state.myScore});
+    }
   }
 
-  void listenToOpponentScore() {
+  void listenToOpponentScore() async{
     collectionManager.subscribeToDocument(
-        documentId: "1234",
-        desiredKey: "player2",
-        executeOnChange: (listenedVal) {
+        documentId: documentId,
+        executeOnChange: (listenedDocument) {
           int myScore = state.myScore;
-          int opponentNewScore = int.parse(listenedVal);
+          String opponentId = "";
+          for(var item in listenedDocument.entries){
+            String checkedId = item.key.toString();
+            if(checkedId!=myId){
+              opponentId = checkedId;
+              break;
+            }
+          }
+          dynamic listenedVal = listenedDocument[opponentId];
+          int opponentNewScore = listenedVal is int ? listenedVal : int.parse(listenedVal);
           emit(state.copyWith(myScore: myScore,opponentScore: opponentNewScore));
         });
   }

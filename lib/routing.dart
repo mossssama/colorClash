@@ -20,8 +20,10 @@ Route? onGenerateRoute(RouteSettings settings) {
     case lobbyScreen:
       return MaterialPageRoute(builder: (context) => const LobbyScreen());
     case gameScreen:
-      final isMultiplayerMode = settings.arguments as bool;
-      return MaterialPageRoute(builder: (context) => BlocProvider<GamePlayCubit>(create: (context) => GamePlayCubit(), child: GameScreen(isMultiplayerMode: isMultiplayerMode)));
+      final gameArgs = settings.arguments as Map<String,dynamic>;
+      String documentId = gameArgs["documentId"];
+      String myId = gameArgs["myId"];
+      return MaterialPageRoute(builder: (context) => BlocProvider<GamePlayCubit>(create: (context) => GamePlayCubit(documentId:documentId,myId: myId), child: GameScreen(isMultiplayerMode: gameArgs["isMultiplayerMode"],documentId: documentId,myId: myId)));
     case gameOverScreen:
       return MaterialPageRoute(builder: (context) => const GameOverScreen());
   }

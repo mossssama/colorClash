@@ -12,7 +12,9 @@ import '../widgets/single_player_app_bar_title.dart';
 
 class GameScreen extends StatefulWidget {
   bool isMultiplayerMode;
-  GameScreen({super.key, required this.isMultiplayerMode});
+  String? documentId;
+  String? myId;
+  GameScreen({super.key, required this.isMultiplayerMode,this.documentId,this.myId});
 
   @override
   State<GameScreen> createState() => _GameScreenState();
@@ -21,13 +23,15 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   final List<CardSpecs> cards = gamePlayCards;
 
-  Duration actualGameDuration = const Duration(seconds: 60);
+  Duration actualGameDuration = const Duration(seconds: 90);
   ProgressBarCountdownController progressBarCountdownController = ProgressBarCountdownController();
   late Duration duration;
   @override
   void initState() {
     duration = actualGameDuration;
-    context.read<GamePlayCubit>().listenToOpponentScore();
+    if(widget.isMultiplayerMode){
+      context.read<GamePlayCubit>().listenToOpponentScore();
+    }
     context.read<GamePlayCubit>().buildGamePlay();
     super.initState();
   }
